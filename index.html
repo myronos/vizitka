@@ -5,83 +5,124 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Будівельні роботи під ключ • Строительные работы под ключ</title>
   <meta name="description" content="Подпорные стены, лестницы, брусчатка, благоустройство. Telegram / WhatsApp / Viber." />
+
   <style>
     :root{
-      --bg:#0b0f17; --text:#e7eefc; --muted:#a9b7d6; --line:rgba(255,255,255,.10);
-      --shadow: 0 25px 70px rgba(0,0,0,.45);
+      --bg:#070a11;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.045);
+      --text:#e7eefc;
+      --muted:#a9b7d6;
+      --line:rgba(255,255,255,.11);
+      --shadow: 0 26px 80px rgba(0,0,0,.55);
       --radius: 22px;
+
+      --c1: rgba(110,231,255,.95);
+      --c2: rgba(167,139,250,.92);
+      --c3: rgba(52,211,153,.78);
     }
-    *{box-sizing:border-box}
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       color:var(--text);
       background:
-        radial-gradient(1200px 700px at 10% 0%, rgba(110,231,255,.18), transparent 55%),
-        radial-gradient(900px 600px at 90% 15%, rgba(167,139,250,.18), transparent 55%),
-        radial-gradient(800px 600px at 40% 90%, rgba(52,211,153,.10), transparent 55%),
+        radial-gradient(1200px 700px at 10% 0%, rgba(110,231,255,.16), transparent 55%),
+        radial-gradient(900px 600px at 90% 15%, rgba(167,139,250,.16), transparent 55%),
+        radial-gradient(900px 700px at 40% 90%, rgba(52,211,153,.09), transparent 55%),
         linear-gradient(180deg, #070a11 0%, #0b0f17 45%, #070a11 100%);
       line-height:1.55;
+      -webkit-text-size-adjust: 100%;
+      padding-bottom: env(safe-area-inset-bottom);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:1100px; margin:0 auto; padding:22px 18px 64px}
+    a{ color:inherit; text-decoration:none; }
+    a, button{ -webkit-tap-highlight-color: transparent; }
+
+    /* Subtle animated grain */
+    .noise{
+      pointer-events:none;
+      position:fixed; inset:0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+      opacity:.055;
+      mix-blend-mode: overlay;
+      z-index:1;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:22px 18px 64px;
+      position:relative;
+      z-index:2;
+    }
 
     /* Top bar */
-    .gallery{
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap:14px;
-    }
-
     .top{
-      position:sticky; top:0; z-index:30;
+      position:sticky; top:0; z-index:50;
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       padding:14px 18px; margin:0 -18px 14px;
-      background: rgba(11,15,23,.55);
+      background: rgba(11,15,23,.58);
       border-bottom:1px solid var(--line);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
-    .brand{display:flex; align-items:center; gap:12px}
+    .brand{ display:flex; align-items:center; gap:12px; min-width: 210px; }
     .logo{
       width:40px; height:40px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.90));
-      box-shadow: 0 12px 30px rgba(110,231,255,.15);
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      box-shadow: 0 16px 40px rgba(110,231,255,.12);
       position:relative; overflow:hidden;
+      transform: translateZ(0);
     }
     .logo:before{
-      content:""; position:absolute; inset:-30%;
+      content:""; position:absolute; inset:-35%;
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), transparent 45%);
       transform: rotate(10deg);
+      animation: sheen 8s ease-in-out infinite;
     }
-    .brand .t1{font-weight:900; letter-spacing:.2px}
-    .brand .t2{color:var(--muted); font-size:13px; margin-top:2px}
+    @keyframes sheen{
+      0%,100%{ transform: translate(-6px,-4px) rotate(10deg); opacity:.85; }
+      50%{ transform: translate(10px,8px) rotate(12deg); opacity:1; }
+    }
+    .brand .t1{ font-weight:950; letter-spacing:.2px; }
+    .brand .t2{ color:var(--muted); font-size:13px; margin-top:2px; }
 
-    .nav{display:flex; gap:10px; flex-wrap:wrap}
+    .nav{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
     .pill{
       padding:10px 12px;
       border:1px solid var(--line);
       background: rgba(255,255,255,.03);
       border-radius:999px;
       font-size:14px;
-      transition:.18s ease;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
     }
-    .pill:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20)}
+    .pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.05); }
 
     /* Liquid + Glass */
-    .liquid{
+    .glass{
       position:relative;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius);
       overflow:hidden;
+      transform: translateZ(0);
     }
+
     .liquid::before,
     .liquid::after{
       content:"";
       position:absolute;
       width:560px; height:560px;
       filter: blur(42px);
-      opacity:.70;
+      opacity:.72;
       z-index:0;
       border-radius: 42% 58% 55% 45% / 45% 45% 55% 55%;
-      animation: floaty 12s ease-in-out infinite;
+      animation: floaty 14s ease-in-out infinite;
     }
     .liquid::before{
       top:-260px; left:-230px;
@@ -90,25 +131,38 @@
         radial-gradient(circle at 70% 60%, rgba(167,139,250,.85), transparent 55%);
     }
     .liquid::after{
-      bottom:-300px; right:-260px;
+      bottom:-320px; right:-280px;
       background:
         radial-gradient(circle at 40% 40%, rgba(52,211,153,.78), transparent 55%),
         radial-gradient(circle at 70% 30%, rgba(110,231,255,.55), transparent 55%);
-      animation-delay:-4s;
+      animation-delay:-6s;
     }
     @keyframes floaty{
-      0%{transform: translate(0,0) rotate(0deg) scale(1);}
-      50%{transform: translate(30px, 18px) rotate(8deg) scale(1.06);}
-      100%{transform: translate(0,0) rotate(0deg) scale(1);}
+      0%{ transform: translate(0,0) rotate(0deg) scale(1); }
+      50%{ transform: translate(34px, 16px) rotate(10deg) scale(1.08); }
+      100%{ transform: translate(0,0) rotate(0deg) scale(1); }
     }
-    .glass{
-      position:relative;
-      z-index:1;
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(12px);
-      border-radius: var(--radius);
+
+    /* Page subtle floating blobs in background */
+    .bgBlobs{
+      position:fixed; inset:0; z-index:0;
+      pointer-events:none;
+    }
+    .blob{
+      position:absolute;
+      width:680px; height:680px;
+      border-radius: 40% 60% 52% 48% / 45% 45% 55% 55%;
+      filter: blur(55px);
+      opacity:.20;
+      animation: blobMove 18s ease-in-out infinite;
+      transform: translateZ(0);
+    }
+    .blob.b1{ left:-260px; top:-240px; background: radial-gradient(circle at 30% 30%, var(--c1), transparent 58%); }
+    .blob.b2{ right:-300px; top:80px; background: radial-gradient(circle at 30% 30%, var(--c2), transparent 60%); animation-delay:-6s; }
+    .blob.b3{ left:20%; bottom:-360px; background: radial-gradient(circle at 30% 30%, var(--c3), transparent 60%); animation-delay:-12s; }
+    @keyframes blobMove{
+      0%,100%{ transform: translate(0,0) rotate(0deg) scale(1); }
+      50%{ transform: translate(40px, 20px) rotate(12deg) scale(1.06); }
     }
 
     /* Layout */
@@ -118,117 +172,181 @@
       gap:14px;
       align-items:stretch;
     }
-    @media (max-width: 920px){ .hero{grid-template-columns:1fr} }
+    @media (max-width: 920px){ .hero{ grid-template-columns:1fr; } }
 
-    .heroLeft{padding:24px}
+    .heroLeft{ padding:24px; }
+    .heroLeft > *{ position:relative; z-index:1; }
+
     .kicker{
       display:flex; flex-wrap:wrap; align-items:center; gap:10px;
-      color:var(--muted); font-size:14px;
+      color:var(--muted);
+      font-size:14px;
     }
     .dot{
       width:8px; height:8px; border-radius:50%;
       background: rgba(52,211,153,1);
       box-shadow: 0 0 18px rgba(52,211,153,.45);
     }
+
     h1{
       margin:14px 0 10px;
-      font-size: clamp(28px, 4.5vw, 46px);
-      line-height:1.08;
-      letter-spacing:-.6px;
+      font-size: clamp(28px, 4.8vw, 48px);
+      line-height:1.06;
+      letter-spacing:-.7px;
     }
     .lead{
       margin:0 0 16px;
       color:var(--muted);
       font-size:16px;
-      max-width:56ch;
+      max-width:58ch;
     }
 
-    .badges{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .badges{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
     .badge{
       padding:8px 10px;
       border-radius:999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: rgba(255,255,255,.035);
       font-size:12px;
-      font-weight:700;
+      font-weight:800;
       color: rgba(231,238,252,.92);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
     }
+    .badge:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06); }
 
-    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    .ctaRow{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;
+    }
     .btn{
-      display:inline-flex; align-items:center; justify-content:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       padding:12px 14px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.05);
-      font-weight:800;
+      font-weight:900;
       font-size:14px;
-      transition:.18s ease;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease;
+      will-change: transform;
     }
-    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22)}
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.07);
+      box-shadow: 0 14px 40px rgba(0,0,0,.25);
+    }
     .btn.primary{
       background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.18));
       border-color: rgba(110,231,255,.22);
     }
 
-    .heroRight{padding:16px; display:grid; gap:12px}
+    .heroRight{
+      padding:16px;
+      display:grid;
+      gap:12px;
+    }
     .stat{
       padding:14px 14px;
       border-radius:18px;
       border:1px solid var(--line);
       background: rgba(0,0,0,.20);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
     }
-    .stat .big{font-weight:900; font-size:16px}
-    .stat .small{color:var(--muted); font-size:13px; margin-top:4px}
+    .stat:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(0,0,0,.26);
+    }
+    .stat .big{ font-weight:950; font-size:16px; }
+    .stat .small{ color:var(--muted); font-size:13px; margin-top:4px; }
 
     /* Section */
-    section{margin-top:18px}
+    section{ margin-top:18px; }
     .sectionTitle{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
       margin: 16px 0 10px;
     }
-    .sectionTitle h2{margin:0; font-size:20px}
-    .sectionTitle p{margin:0; color:var(--muted); font-size:13px}
+    .sectionTitle h2{ margin:0; font-size:20px; letter-spacing:-.2px; }
+    .sectionTitle p{ margin:0; color:var(--muted); font-size:13px; }
 
-    .grid3{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px}
-    @media (max-width: 920px){ .grid3{grid-template-columns:1fr} }
+    .grid3{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+    }
+    @media (max-width: 920px){ .grid3{ grid-template-columns:1fr; } }
 
     .service{
       padding:16px;
       border-radius:18px;
       border:1px solid var(--line);
       background: rgba(255,255,255,.03);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
     }
-    .service .name{font-weight:900; margin:8px 0 6px}
-    .service .desc{margin:0; color:var(--muted); font-size:14px}
+    .service:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.05);
+    }
+    .service .name{ font-weight:950; margin:6px 0 6px; }
+    .service .desc{ margin:0; color:var(--muted); font-size:14px; }
 
-    /* Before/After cards */
-    .ba{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-    @media (max-width: 920px){ .ba{grid-template-columns:1fr} }
+    /* Gallery grids */
+    .ba{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 920px){ .ba{ grid-template-columns:1fr; } }
+
+    .gallery{
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap:14px;
+    }
+    @media (max-width: 780px){
+      .gallery{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 380px){
+      .gallery{ grid-template-columns: 1fr; }
+    }
 
     .photoCard{
       border-radius: 18px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.18);
+      transform: translateZ(0);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .photoCard:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
     }
     .photoCard img{
       width:100%;
-      height:280px;
+      height:auto;
+      aspect-ratio: 4 / 3;
       object-fit:cover;
       display:block;
-      transform: scale(1.02);
+      cursor: zoom-in;
     }
     .cap{
       padding:10px 12px;
-      display:flex; align-items:center; justify-content:space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       color: rgba(231,238,252,.92);
-      font-weight:900;
+      font-weight:950;
       font-size:13px;
       border-top:1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.03);
     }
-    .cap span{color: rgba(169,183,214,.85); font-weight:800}
+    .cap span{ color: rgba(169,183,214,.85); font-weight:850; }
 
     .footerCta{
       margin-top:18px;
@@ -236,102 +354,144 @@
       border-radius: var(--radius);
       border:1px solid rgba(110,231,255,.18);
       background: linear-gradient(135deg, rgba(110,231,255,.10), rgba(167,139,250,.08));
-      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
     }
-    .footerCta .t1{font-weight:950; font-size:16px}
-    .footerCta .t2{color:var(--muted); font-size:13px; margin-top:4px}
-    .smallprint{margin-top:16px; color: rgba(169,183,214,.75); font-size:12px; text-align:center;}
-    /* ===== Mobile optimization ===== */
+    .footerCta .t1{ font-weight:980; font-size:16px; }
+    .footerCta .t2{ color:var(--muted); font-size:13px; margin-top:4px; }
+    .smallprint{
+      margin-top:16px;
+      color: rgba(169,183,214,.75);
+      font-size:12px;
+      text-align:center;
+    }
 
-/* Safe areas (iPhone notch) + smoother tap */
-body{
-  -webkit-text-size-adjust: 100%;
-  padding-bottom: env(safe-area-inset-bottom);
-}
-a, button{ -webkit-tap-highlight-color: transparent; }
+    /* Reveal on scroll */
+    .reveal{
+      opacity:0;
+      transform: translateY(10px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.in{
+      opacity:1;
+      transform: translateY(0);
+    }
 
-/* Make sticky header smaller on phones */
-@media (max-width: 520px){
-  .top{
-    padding: 10px 12px;
-    margin: 0 -18px 10px;
-  }
-  .brand .t1{ font-size: 14px; }
-  .brand .t2{ display:none; }
-  .pill{ padding: 8px 10px; font-size: 13px; }
-}
+    /* Mobile: header + buttons */
+    @media (max-width: 520px){
+      .top{
+        padding: 10px 12px;
+        margin: 0 -18px 10px;
+      }
+      .brand{ min-width:auto; }
+      .brand .t1{ font-size: 14px; }
+      .brand .t2{ display:none; }
+      .pill{ padding: 8px 10px; font-size: 13px; }
+      .heroLeft{ padding: 18px; }
+      .heroRight{ padding: 14px; }
+      .btn{
+        width:100%;
+        border-radius:16px;
+      }
+    }
 
-/* Hero: stack + better spacing */
-@media (max-width: 920px){
-  .wrap{ padding-top: 14px; }
-  .hero{ gap: 12px; }
-  .heroLeft{ padding: 18px; }
-  .heroRight{ padding: 14px; }
-  h1{ letter-spacing: -0.3px; }
-}
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      html{ scroll-behavior:auto; }
+      .liquid::before, .liquid::after, .blob, .logo:before{ animation:none !important; }
+      .reveal{ transition:none; opacity:1; transform:none; }
+      .btn, .pill, .badge, .photoCard, .stat, .service{ transition:none; }
+    }
 
-/* Buttons: full width on mobile */
-@media (max-width: 520px){
-  .ctaRow{ gap: 10px; }
-  .btn{
-    width: 100%;
-    justify-content: center;
-    padding: 12px 14px;
-    border-radius: 16px;
-  }
-}
-
-/* Services: slightly tighter */
-@media (max-width: 520px){
-  .service{ padding: 14px; }
-  .service .desc{ font-size: 13px; }
-}
-
-/* Gallery grid: 2 columns on phones, 1 on very small screens */
-.gallery, .ba{
-  gap: 12px;
-}
-@media (max-width: 780px){
-  .gallery{
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (max-width: 380px){
-  .gallery{
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Images: stable aspect ratio + less jump */
-.photoCard img{
-  width: 100%;
-  height: auto;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  display:block;
-}
-
-/* Lightbox: better on mobile */
-@media (max-width: 520px){
-  .lbBox{
-    width: 96vw;
-    height: 78vh;
-    border-radius: 16px;
-  }
-  .lbArrow{
-    width: 40px;
-    height: 40px;
-    border-radius: 14px;
-  }
-  .lbBtn{
-    padding: 9px 11px;
-    border-radius: 12px;
-  }
-}
-
+    /* Lightbox */
+    .lbOverlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.78);
+      backdrop-filter: blur(8px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      padding:20px;
+    }
+    .lbOverlay.open{ display:flex; }
+    .lbBox{
+      width:min(1100px, 96vw);
+      height:min(78vh, 820px);
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(10,14,22,.55);
+      box-shadow: 0 30px 90px rgba(0,0,0,.6);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .lbImg{ width:100%; height:100%; object-fit:contain; display:block; }
+    .lbTop{
+      position:absolute; left:0; right:0; top:0;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      background: linear-gradient(180deg, rgba(0,0,0,.60), transparent);
+      color: rgba(231,238,252,.92);
+      font-weight:950;
+      font-size:13px;
+      pointer-events:none;
+    }
+    .lbBtn{
+      pointer-events:auto;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(231,238,252,.95);
+      border-radius:12px;
+      padding:10px 12px;
+      font-weight:950;
+      cursor:pointer;
+      transition:.15s ease;
+      user-select:none;
+    }
+    .lbBtn:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.26); }
+    .lbNav{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 10px;
+      pointer-events:none;
+    }
+    .lbArrow{
+      pointer-events:auto;
+      width:44px; height:44px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      font-weight:950;
+      font-size:18px;
+      transition:.15s ease;
+      user-select:none;
+    }
+    .lbArrow:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.26); }
+    @media (max-width: 520px){
+      .lbBox{ width:96vw; height:78vh; border-radius:16px; }
+      .lbArrow{ width:40px; height:40px; border-radius:14px; }
+      .lbBtn{ padding:9px 11px; border-radius:12px; }
+    }
   </style>
 </head>
+
 <body>
+  <div class="bgBlobs">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="noise"></div>
+
   <div class="top">
     <div class="brand">
       <div class="logo" aria-hidden="true"></div>
@@ -342,14 +502,15 @@ a, button{ -webkit-tap-highlight-color: transparent; }
     </div>
     <div class="nav">
       <a class="pill" href="#services">Услуги</a>
-      <a class="pill" href="#works">До/После</a>
+      <a class="pill" href="#beforeafter">До/После</a>
+      <a class="pill" href="#gallery">Галерея</a>
       <a class="pill" href="#contacts">Контакты</a>
     </div>
   </div>
 
   <div class="wrap">
     <div class="hero">
-      <div class="heroLeft liquid glass" id="contacts">
+      <div class="heroLeft glass liquid reveal" id="contacts">
         <div class="kicker">
           <span class="dot"></span>
           <span>Якість • Надійність • Результат</span>
@@ -375,37 +536,79 @@ a, button{ -webkit-tap-highlight-color: transparent; }
         </div>
       </div>
 
-      <div class="heroRight glass">
-        <div class="stat"><div class="big">Аккуратный результат</div><div class="small">Ровная геометрия, чистые швы, правильные уклоны.</div></div>
-        <div class="stat"><div class="big">Работа по этапам</div><div class="small">Согласуем материалы и сроки. Фото-отчёт по ходу работ.</div></div>
-        <div class="stat"><div class="big">Без сюрпризов</div><div class="small">Поясняем смету и варианты — что лучше по цене/качеству.</div></div>
+      <div class="heroRight glass reveal">
+        <div class="stat">
+          <div class="big">Аккуратный результат</div>
+          <div class="small">Ровная геометрия, чистые швы, правильные уклоны.</div>
+        </div>
+        <div class="stat">
+          <div class="big">Работа по этапам</div>
+          <div class="small">Согласуем материалы и сроки. Фото-отчёт по ходу работ.</div>
+        </div>
+        <div class="stat">
+          <div class="big">Без сюрпризов</div>
+          <div class="small">Поясняем смету и варианты — что лучше по цене/качеству.</div>
+        </div>
       </div>
     </div>
 
-    <section id="services">
-      <div class="sectionTitle"><h2>Услуги</h2><p>Коротко и по делу</p></div>
+    <section id="services" class="reveal">
+      <div class="sectionTitle">
+        <h2>Услуги</h2><p>Коротко и по делу</p>
+      </div>
       <div class="grid3">
-        <div class="service"><div class="name">Подпорные стены</div><p class="desc">Террасы, укрепление склонов, основание, дренаж.</p></div>
-        <div class="service"><div class="name">Лестницы и ступени</div><p class="desc">Входные и садовые. Надёжно, ровно, безопасно.</p></div>
-        <div class="service"><div class="name">Брусчатка / плитка</div><p class="desc">Подготовка основания, уклоны, бордюры, водоотвод.</p></div>
+        <div class="service">
+          <div class="name">Подпорные стены</div>
+          <p class="desc">Террасы, укрепление склонов, основание, дренаж.</p>
+        </div>
+        <div class="service">
+          <div class="name">Лестницы и ступени</div>
+          <p class="desc">Входные и садовые. Надёжно, ровно, безопасно.</p>
+        </div>
+        <div class="service">
+          <div class="name">Брусчатка / плитка</div>
+          <p class="desc">Подготовка основания, уклоны, бордюры, водоотвод.</p>
+        </div>
       </div>
     </section>
 
-    <section id="works">
-      <div class="sectionTitle"><h2>До / После</h2><p>Просто положи 2 фото в папку</p></div>
+    <section id="beforeafter" class="reveal">
+      <div class="sectionTitle">
+        <h2>До / После</h2><p>Кликни по фото — увеличится</p>
+      </div>
       <div class="ba">
         <div class="photoCard">
-          <img src="before.jpg" alt="До" />
+          <img src="before.jpg" alt="До" loading="lazy" />
           <div class="cap">До <span>before.jpg</span></div>
         </div>
         <div class="photoCard">
-          <img src="after.jpg" alt="После" />
+          <img src="after.jpg" alt="После" loading="lazy" />
           <div class="cap">После <span>after.jpg</span></div>
         </div>
       </div>
     </section>
 
-    <div class="footerCta">
+    <section id="gallery" class="reveal">
+      <div class="sectionTitle">
+        <h2>Галерея работ</h2><p>Фото выполненных объектов</p>
+      </div>
+
+      <div class="gallery">
+        <div class="photoCard"><img src="photos/f99efd82-24a0-41dd-9b31-10d91d2aa1e7.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/2f6ff686-b7be-42f6-ba9a-706328f5d7a1.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/abfd6c20-6227-4587-80ba-4eee7caadfbf.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/c3178f22-5ac5-4a18-9c71-c3a646d9bb04.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/5d3c76f5-0cf8-4b23-9cac-031aff3c73fc.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/c62b1f15-1b12-489f-a2e0-d95dcecf5d8d.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/06870fea-c1b2-45fc-82e0-8d094c5ed8cf.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/d56fab3f-e640-4189-b25d-7bfed30ef6cc.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/ed46933e-691b-4e5c-a088-53654756ccb4.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/b42feebc-88e9-44a8-9efc-bc26bd01af11.png" alt="Работа" loading="lazy"></div>
+        <div class="photoCard"><img src="photos/551ec5ac-f39a-4de2-a914-34fd5c68a5cf.png" alt="Работа" loading="lazy"></div>
+      </div>
+    </section>
+
+    <div class="footerCta reveal">
       <div>
         <div class="t1">Хотите оценку стоимости?</div>
         <div class="t2">Напишите в Telegram/WhatsApp — фото + размеры.</div>
@@ -419,234 +622,111 @@ a, button{ -webkit-tap-highlight-color: transparent; }
     <div class="smallprint">© <span id="y"></span> Якість • Надійність • Результат</div>
   </div>
 
-  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
-  <!-- AUTO GALLERY (COPY–PASTE ONLY) -->
-<section id="works" style="margin-top:24px">
-  <div class="sectionTitle">
-    <h2>Наши работы</h2>
-    <p>Реальные фото выполненных объектов</p>
-  </div>
-
-  <div class="gallery" id="autoGallery"></div>
-</section>
-
-<style>
-  .gallery{
-    display:grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
-    gap:14px;
-  }
-</style>
-
-<script>
-(async () => {
-  const container = document.getElementById("autoGallery");
-  const extensions = ["jpg","jpeg","png","webp"];
-
-  // Пытаемся получить список файлов (работает локально через file:// и на хостинге)
-  try{
-    const res = await fetch("photos/");
-    const text = await res.text();
-    const files = [...text.matchAll(/href="([^"]+)"/g)]
-      .map(m => m[1])
-      .filter(f => extensions.some(e => f.toLowerCase().endsWith("."+e)));
-
-    files.forEach(file => {
-      const card = document.createElement("div");
-      card.className = "photoCard";
-      card.innerHTML = `
-        <img src="photos/${file}" loading="lazy">
-        <div class="cap">Выполненный объект</div>
-      `;
-      container.appendChild(card);
-    });
-  } catch(e){
-    container.innerHTML = "<p style='opacity:.6'>Добавь фото в папку <b>photos</b></p>";
-  }
-})();
-</script>
-<!-- /AUTO GALLERY -->
- <!-- LIGHTBOX for BEFORE/AFTER only -->
-<style>
-  .lbOverlay{
-    position:fixed; inset:0;
-    background: rgba(0,0,0,.78);
-    backdrop-filter: blur(6px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:9999;
-    padding:20px;
-  }
-  .lbOverlay.open{display:flex;}
-  .lbBox{
-    width:min(1100px, 96vw);
-    height:min(78vh, 820px);
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,.14);
-    background: rgba(10,14,22,.55);
-    box-shadow: 0 30px 90px rgba(0,0,0,.6);
-    overflow:hidden;
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .lbImg{width:100%; height:100%; object-fit:contain; display:block;}
-  .lbTop{
-    position:absolute; left:0; right:0; top:0;
-    display:flex; align-items:center; justify-content:space-between;
-    gap:10px;
-    padding:10px 12px;
-    background: linear-gradient(180deg, rgba(0,0,0,.55), transparent);
-    color: rgba(231,238,252,.92);
-    font-weight:900;
-    font-size:13px;
-    pointer-events:none;
-  }
-  .lbBtn{
-    pointer-events:auto;
-    border:1px solid rgba(255,255,255,.16);
-    background: rgba(255,255,255,.06);
-    color: rgba(231,238,252,.95);
-    border-radius:12px;
-    padding:10px 12px;
-    font-weight:900;
-    cursor:pointer;
-    transition:.15s ease;
-    user-select:none;
-  }
-  .lbBtn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.26)}
-  .lbNav{
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 10px;
-    pointer-events:none;
-  }
-  .lbArrow{
-    pointer-events:auto;
-    width:44px; height:44px;
-    border-radius:14px;
-    border:1px solid rgba(255,255,255,.16);
-    background: rgba(255,255,255,.06);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    font-weight:900;
-    font-size:18px;
-    transition:.15s ease;
-    user-select:none;
-  }
-  .lbArrow:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.26)}
-  .photoCard img{ cursor: zoom-in; }
-</style>
-
-<div class="lbOverlay" id="lbOverlay" aria-hidden="true">
-  <div class="lbBox" role="dialog" aria-modal="true" aria-label="Просмотр фото">
-    <div class="lbTop">
-      <span id="lbTitle">Фото</span>
-      <button class="lbBtn" id="lbClose" type="button">✕</button>
-    </div>
-
-    <img class="lbImg" id="lbImg" alt="Фото крупно" />
-
-    <div class="lbNav">
-      <div class="lbArrow" id="lbPrev" title="Назад (←)">‹</div>
-      <div class="lbArrow" id="lbNext" title="Вперёд (→)">›</div>
+  <!-- Lightbox (for ALL images) -->
+  <div class="lbOverlay" id="lbOverlay" aria-hidden="true">
+    <div class="lbBox" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+      <div class="lbTop">
+        <span id="lbTitle">Фото</span>
+        <button class="lbBtn" id="lbClose" type="button">✕</button>
+      </div>
+      <img class="lbImg" id="lbImg" alt="Фото крупно" />
+      <div class="lbNav">
+        <div class="lbArrow" id="lbPrev" title="Назад (←)">‹</div>
+        <div class="lbArrow" id="lbNext" title="Вперёд (→)">›</div>
+      </div>
     </div>
   </div>
-</div>
 
-<script>
-  (function(){
-    const overlay = document.getElementById("lbOverlay");
-    const imgEl = document.getElementById("lbImg");
-    const titleEl = document.getElementById("lbTitle");
-    const closeBtn = document.getElementById("lbClose");
-    const prevBtn = document.getElementById("lbPrev");
-    const nextBtn = document.getElementById("lbNext");
+  <script>
+    // Year
+    document.getElementById("y").textContent = new Date().getFullYear();
 
-    // ВАЖНО: берём ровно две картинки по src
-    const images = [
-      { src: "before.jpg", title: "До" },
-      { src: "after.jpg",  title: "После" }
-    ];
+    // Reveal on scroll
+    (function(){
+      const els = Array.from(document.querySelectorAll(".reveal"));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      els.forEach(el => io.observe(el));
+    })();
 
-    let index = 0;
+    // Lightbox for all .photoCard img
+    (function(){
+      const overlay = document.getElementById("lbOverlay");
+      const imgEl = document.getElementById("lbImg");
+      const titleEl = document.getElementById("lbTitle");
+      const closeBtn = document.getElementById("lbClose");
+      const prevBtn = document.getElementById("lbPrev");
+      const nextBtn = document.getElementById("lbNext");
 
-    function openAt(i){
-      index = (i + images.length) % images.length;
-      imgEl.src = images[index].src;
-      titleEl.textContent = images[index].title + ` (${index+1}/${images.length})`;
-      overlay.classList.add("open");
-      overlay.setAttribute("aria-hidden","false");
-      document.body.style.overflow = "hidden";
-    }
-    function close(){
-      overlay.classList.remove("open");
-      overlay.setAttribute("aria-hidden","true");
-      imgEl.src = "";
-      document.body.style.overflow = "";
-    }
-    function next(){ openAt(index + 1); }
-    function prev(){ openAt(index - 1); }
+      let images = [];
+      let idx = 0;
 
-    // Открывать только при клике на before/after
-    document.addEventListener("click", (e) => {
-      const img = e.target.closest(".photoCard img");
-      if(!img) return;
+      function collect(){
+        images = Array.from(document.querySelectorAll(".photoCard img"))
+          .map(img => ({
+            src: img.getAttribute("src"),
+            alt: img.getAttribute("alt") || "Фото"
+          }))
+          .filter(x => x.src);
+      }
 
-      const src = (img.getAttribute("src") || "").trim();
-      if(src.includes("before")) openAt(0);
-      else if(src.includes("after")) openAt(1);
-    });
+      function openAt(i){
+        collect();
+        if(!images.length) return;
+        idx = (i + images.length) % images.length;
+        imgEl.src = images[idx].src;
+        titleEl.textContent = `${images[idx].alt} (${idx+1}/${images.length})`;
+        overlay.classList.add("open");
+        overlay.setAttribute("aria-hidden","false");
+        document.body.style.overflow = "hidden";
+      }
+      function close(){
+        overlay.classList.remove("open");
+        overlay.setAttribute("aria-hidden","true");
+        imgEl.src = "";
+        document.body.style.overflow = "";
+      }
+      function next(){ openAt(idx + 1); }
+      function prev(){ openAt(idx - 1); }
 
-    overlay.addEventListener("click", (e) => { if(e.target === overlay) close(); });
-    closeBtn.addEventListener("click", close);
-    nextBtn.addEventListener("click", next);
-    prevBtn.addEventListener("click", prev);
+      document.addEventListener("click", (e) => {
+        const img = e.target.closest(".photoCard img");
+        if(!img) return;
+        collect();
+        const i = images.findIndex(x => x.src === img.getAttribute("src"));
+        openAt(i < 0 ? 0 : i);
+      });
 
-    document.addEventListener("keydown", (e) => {
-      if(!overlay.classList.contains("open")) return;
-      if(e.key === "Escape") close();
-      if(e.key === "ArrowRight") next();
-      if(e.key === "ArrowLeft") prev();
-    });
+      overlay.addEventListener("click", (e) => { if(e.target === overlay) close(); });
+      closeBtn.addEventListener("click", close);
+      nextBtn.addEventListener("click", next);
+      prevBtn.addEventListener("click", prev);
 
-    // Swipe (mobile)
-    let x0 = null;
-    overlay.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, {passive:true});
-    overlay.addEventListener("touchend", (e) => {
-      if(x0 === null) return;
-      const x1 = e.changedTouches[0].clientX;
-      const dx = x1 - x0;
-      x0 = null;
-      if(Math.abs(dx) < 40) return;
-      if(dx < 0) next(); else prev();
-    }, {passive:true});
-  })();
-</script>
-<!-- /LIGHTBOX -->
-<section id="gallery-extra">
-  <div class="sectionTitle">
-    <h2>Другие работы</h2>
-    <p>Фотографии выполненных объектов</p>
-  </div>
+      document.addEventListener("keydown", (e) => {
+        if(!overlay.classList.contains("open")) return;
+        if(e.key === "Escape") close();
+        if(e.key === "ArrowRight") next();
+        if(e.key === "ArrowLeft") prev();
+      });
 
-  <div class="gallery">
-    <div class="photoCard"><img src="photos/f99efd82-24a0-41dd-9b31-10d91d2aa1e7.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/2f6ff686-b7be-42f6-ba9a-706328f5d7a1.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/abfd6c20-6227-4587-80ba-4eee7caadfbf.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/c3178f22-5ac5-4a18-9c71-c3a646d9bb04.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/5d3c76f5-0cf8-4b23-9cac-031aff3c73fc.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/c62b1f15-1b12-489f-a2e0-d95dcecf5d8d.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/06870fea-c1b2-45fc-82e0-8d094c5ed8cf.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/d56fab3f-e640-4189-b25d-7bfed30ef6cc.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/ed46933e-691b-4e5c-a088-53654756ccb4.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/b42feebc-88e9-44a8-9efc-bc26bd01af11.png" alt="Работа"></div>
-    <div class="photoCard"><img src="photos/551ec5ac-f39a-4de2-a914-34fd5c68a5cf.png" alt="Работа"></div>
-  </div>
-</section>
-
-
+      // swipe (mobile)
+      let x0 = null;
+      overlay.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, {passive:true});
+      overlay.addEventListener("touchend", (e) => {
+        if(x0 === null) return;
+        const x1 = e.changedTouches[0].clientX;
+        const dx = x1 - x0;
+        x0 = null;
+        if(Math.abs(dx) < 40) return;
+        if(dx < 0) next(); else prev();
+      }, {passive:true});
+    })();
+  </script>
 </body>
 </html>
