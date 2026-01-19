@@ -241,6 +241,94 @@
     .footerCta .t1{font-weight:950; font-size:16px}
     .footerCta .t2{color:var(--muted); font-size:13px; margin-top:4px}
     .smallprint{margin-top:16px; color: rgba(169,183,214,.75); font-size:12px; text-align:center;}
+    /* ===== Mobile optimization ===== */
+
+/* Safe areas (iPhone notch) + smoother tap */
+body{
+  -webkit-text-size-adjust: 100%;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+a, button{ -webkit-tap-highlight-color: transparent; }
+
+/* Make sticky header smaller on phones */
+@media (max-width: 520px){
+  .top{
+    padding: 10px 12px;
+    margin: 0 -18px 10px;
+  }
+  .brand .t1{ font-size: 14px; }
+  .brand .t2{ display:none; }
+  .pill{ padding: 8px 10px; font-size: 13px; }
+}
+
+/* Hero: stack + better spacing */
+@media (max-width: 920px){
+  .wrap{ padding-top: 14px; }
+  .hero{ gap: 12px; }
+  .heroLeft{ padding: 18px; }
+  .heroRight{ padding: 14px; }
+  h1{ letter-spacing: -0.3px; }
+}
+
+/* Buttons: full width on mobile */
+@media (max-width: 520px){
+  .ctaRow{ gap: 10px; }
+  .btn{
+    width: 100%;
+    justify-content: center;
+    padding: 12px 14px;
+    border-radius: 16px;
+  }
+}
+
+/* Services: slightly tighter */
+@media (max-width: 520px){
+  .service{ padding: 14px; }
+  .service .desc{ font-size: 13px; }
+}
+
+/* Gallery grid: 2 columns on phones, 1 on very small screens */
+.gallery, .ba{
+  gap: 12px;
+}
+@media (max-width: 780px){
+  .gallery{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 380px){
+  .gallery{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Images: stable aspect ratio + less jump */
+.photoCard img{
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display:block;
+}
+
+/* Lightbox: better on mobile */
+@media (max-width: 520px){
+  .lbBox{
+    width: 96vw;
+    height: 78vh;
+    border-radius: 16px;
+  }
+  .lbArrow{
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+  }
+  .lbBtn{
+    padding: 9px 11px;
+    border-radius: 12px;
+  }
+}
+
   </style>
 </head>
 <body>
