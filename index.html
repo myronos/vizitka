@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Будівельні роботи під ключ • Строительные работы под ключ</title>
+  <meta name="description" content="Подпорные стены, лестницы, брусчатка, благоустройство. Telegram / WhatsApp / Viber." />
+  <style>
+    :root{
+      --bg:#0b0f17; --text:#e7eefc; --muted:#a9b7d6; --line:rgba(255,255,255,.10);
+      --shadow: 0 25px 70px rgba(0,0,0,.45);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 10% 0%, rgba(110,231,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 90% 15%, rgba(167,139,250,.18), transparent 55%),
+        radial-gradient(800px 600px at 40% 90%, rgba(52,211,153,.10), transparent 55%),
+        linear-gradient(180deg, #070a11 0%, #0b0f17 45%, #070a11 100%);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:22px 18px 64px}
+
+    /* Top bar */
+    .top{
+      position:sticky; top:0; z-index:30;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 18px; margin:0 -18px 14px;
+      background: rgba(11,15,23,.55);
+      border-bottom:1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{
+      width:40px; height:40px; border-radius:14px;
+      background: linear-gradient(135deg, rgba(110,231,255,.95), rgba(167,139,250,.90));
+      box-shadow: 0 12px 30px rgba(110,231,255,.15);
+      position:relative; overflow:hidden;
+    }
+    .logo:before{
+      content:""; position:absolute; inset:-30%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.45), transparent 45%);
+      transform: rotate(10deg);
+    }
+    .brand .t1{font-weight:900; letter-spacing:.2px}
+    .brand .t2{color:var(--muted); font-size:13px; margin-top:2px}
+
+    .nav{display:flex; gap:10px; flex-wrap:wrap}
+    .pill{
+      padding:10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius:999px;
+      font-size:14px;
+      transition:.18s ease;
+    }
+    .pill:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20)}
+
+    /* Liquid + Glass */
+    .liquid{
+      position:relative;
+      overflow:hidden;
+    }
+    .liquid::before,
+    .liquid::after{
+      content:"";
+      position:absolute;
+      width:560px; height:560px;
+      filter: blur(42px);
+      opacity:.70;
+      z-index:0;
+      border-radius: 42% 58% 55% 45% / 45% 45% 55% 55%;
+      animation: floaty 12s ease-in-out infinite;
+    }
+    .liquid::before{
+      top:-260px; left:-230px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(110,231,255,.95), transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(167,139,250,.85), transparent 55%);
+    }
+    .liquid::after{
+      bottom:-300px; right:-260px;
+      background:
+        radial-gradient(circle at 40% 40%, rgba(52,211,153,.78), transparent 55%),
+        radial-gradient(circle at 70% 30%, rgba(110,231,255,.55), transparent 55%);
+      animation-delay:-4s;
+    }
+    @keyframes floaty{
+      0%{transform: translate(0,0) rotate(0deg) scale(1);}
+      50%{transform: translate(30px, 18px) rotate(8deg) scale(1.06);}
+      100%{transform: translate(0,0) rotate(0deg) scale(1);}
+    }
+    .glass{
+      position:relative;
+      z-index:1;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius);
+    }
+
+    /* Layout */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.25fr .95fr;
+      gap:14px;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){ .hero{grid-template-columns:1fr} }
+
+    .heroLeft{padding:24px}
+    .kicker{
+      display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+      color:var(--muted); font-size:14px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: rgba(52,211,153,1);
+      box-shadow: 0 0 18px rgba(52,211,153,.45);
+    }
+    h1{
+      margin:14px 0 10px;
+      font-size: clamp(28px, 4.5vw, 46px);
+      line-height:1.08;
+      letter-spacing:-.6px;
+    }
+    .lead{
+      margin:0 0 16px;
+      color:var(--muted);
+      font-size:16px;
+      max-width:56ch;
+    }
+
+    .badges{display:flex; gap:10px; flex-wrap:wrap; margin-top:8px}
+    .badge{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      font-size:12px;
+      font-weight:700;
+      color: rgba(231,238,252,.92);
+    }
+
+    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      font-weight:800;
+      font-size:14px;
+      transition:.18s ease;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(110,231,255,.22), rgba(167,139,250,.18));
+      border-color: rgba(110,231,255,.22);
+    }
+
+    .heroRight{padding:16px; display:grid; gap:12px}
+    .stat{
+      padding:14px 14px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.20);
+    }
+    .stat .big{font-weight:900; font-size:16px}
+    .stat .small{color:var(--muted); font-size:13px; margin-top:4px}
+
+    /* Section */
+    section{margin-top:18px}
+    .sectionTitle{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+      margin: 16px 0 10px;
+    }
+    .sectionTitle h2{margin:0; font-size:20px}
+    .sectionTitle p{margin:0; color:var(--muted); font-size:13px}
+
+    .grid3{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px}
+    @media (max-width: 920px){ .grid3{grid-template-columns:1fr} }
+
+    .service{
+      padding:16px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+    .service .name{font-weight:900; margin:8px 0 6px}
+    .service .desc{margin:0; color:var(--muted); font-size:14px}
+
+    /* Before/After cards */
+    .ba{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 920px){ .ba{grid-template-columns:1fr} }
+
+    .photoCard{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+    }
+    .photoCard img{
+      width:100%;
+      height:280px;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.02);
+    }
+    .cap{
+      padding:10px 12px;
+      display:flex; align-items:center; justify-content:space-between;
+      color: rgba(231,238,252,.92);
+      font-weight:900;
+      font-size:13px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .cap span{color: rgba(169,183,214,.85); font-weight:800}
+
+    .footerCta{
+      margin-top:18px;
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid rgba(110,231,255,.18);
+      background: linear-gradient(135deg, rgba(110,231,255,.10), rgba(167,139,250,.08));
+      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    }
+    .footerCta .t1{font-weight:950; font-size:16px}
+    .footerCta .t2{color:var(--muted); font-size:13px; margin-top:4px}
+    .smallprint{margin-top:16px; color: rgba(169,183,214,.75); font-size:12px; text-align:center;}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <div class="t1">Будівельні роботи під ключ</div>
+        <div class="t2">Подпорные стены • Лестницы • Брусчатка • Ландшафт</div>
+      </div>
+    </div>
+    <div class="nav">
+      <a class="pill" href="#services">Услуги</a>
+      <a class="pill" href="#works">До/После</a>
+      <a class="pill" href="#contacts">Контакты</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="heroLeft liquid glass" id="contacts">
+        <div class="kicker">
+          <span class="dot"></span>
+          <span>Якість • Надійність • Результат</span>
+          <span style="opacity:.55">·</span>
+          <span>Аккуратно и по договоренности</span>
+        </div>
+
+        <h1>Строительные работы под ключ — красиво и надолго.</h1>
+        <p class="lead">Пришлите фото и размеры — подскажем решение и ориентировочную стоимость. Работаем аккуратно, делаем “как себе”.</p>
+
+        <div class="badges">
+          <span class="badge">Подпорные стены</span>
+          <span class="badge">Лестницы</span>
+          <span class="badge">Брусчатка</span>
+          <span class="badge">Благоустройство</span>
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn primary" href="https://t.me/+380979068299" target="_blank" rel="noreferrer">Telegram: +380979068299</a>
+          <a class="btn" href="https://wa.me/3881115745" target="_blank" rel="noreferrer">WhatsApp: +3881115745</a>
+          <a class="btn" href="https://wa.me/380979068299" target="_blank" rel="noreferrer">WhatsApp: +380979068299</a>
+          <a class="btn" href="viber://chat?number=%2B380979068299">Viber: +380 (97) 906 82 99</a>
+        </div>
+      </div>
+
+      <div class="heroRight glass">
+        <div class="stat"><div class="big">Аккуратный результат</div><div class="small">Ровная геометрия, чистые швы, правильные уклоны.</div></div>
+        <div class="stat"><div class="big">Работа по этапам</div><div class="small">Согласуем материалы и сроки. Фото-отчёт по ходу работ.</div></div>
+        <div class="stat"><div class="big">Без сюрпризов</div><div class="small">Поясняем смету и варианты — что лучше по цене/качеству.</div></div>
+      </div>
+    </div>
+
+    <section id="services">
+      <div class="sectionTitle"><h2>Услуги</h2><p>Коротко и по делу</p></div>
+      <div class="grid3">
+        <div class="service"><div class="name">Подпорные стены</div><p class="desc">Террасы, укрепление склонов, основание, дренаж.</p></div>
+        <div class="service"><div class="name">Лестницы и ступени</div><p class="desc">Входные и садовые. Надёжно, ровно, безопасно.</p></div>
+        <div class="service"><div class="name">Брусчатка / плитка</div><p class="desc">Подготовка основания, уклоны, бордюры, водоотвод.</p></div>
+      </div>
+    </section>
+
+    <section id="works">
+      <div class="sectionTitle"><h2>До / После</h2><p>Просто положи 2 фото в папку</p></div>
+      <div class="ba">
+        <div class="photoCard">
+          <img src="before.jpg" alt="До" />
+          <div class="cap">До <span>before.jpg</span></div>
+        </div>
+        <div class="photoCard">
+          <img src="after.jpg" alt="После" />
+          <div class="cap">После <span>after.jpg</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footerCta">
+      <div>
+        <div class="t1">Хотите оценку стоимости?</div>
+        <div class="t2">Напишите в Telegram/WhatsApp — фото + размеры.</div>
+      </div>
+      <div class="ctaRow">
+        <a class="btn primary" href="https://t.me/+380979068299" target="_blank" rel="noreferrer">Написать в Telegram</a>
+        <a class="btn" href="https://wa.me/380979068299" target="_blank" rel="noreferrer">Написать в WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="smallprint">© <span id="y"></span> Якість • Надійність • Результат</div>
+  </div>
+
+  <script>document.getElementById("y").textContent = new Date().getFullYear();</script>
+  <!-- AUTO GALLERY (COPY–PASTE ONLY) -->
+<section id="works" style="margin-top:24px">
+  <div class="sectionTitle">
+    <h2>Наши работы</h2>
+    <p>Реальные фото выполненных объектов</p>
+  </div>
+
+  <div class="gallery" id="autoGallery"></div>
+</section>
+
+<style>
+  .gallery{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+    gap:14px;
+  }
+</style>
+
+<script>
+(async () => {
+  const container = document.getElementById("autoGallery");
+  const extensions = ["jpg","jpeg","png","webp"];
+
+  // Пытаемся получить список файлов (работает локально через file:// и на хостинге)
+  try{
+    const res = await fetch("photos/");
+    const text = await res.text();
+    const files = [...text.matchAll(/href="([^"]+)"/g)]
+      .map(m => m[1])
+      .filter(f => extensions.some(e => f.toLowerCase().endsWith("."+e)));
+
+    files.forEach(file => {
+      const card = document.createElement("div");
+      card.className = "photoCard";
+      card.innerHTML = `
+        <img src="photos/${file}" loading="lazy">
+        <div class="cap">Выполненный объект</div>
+      `;
+      container.appendChild(card);
+    });
+  } catch(e){
+    container.innerHTML = "<p style='opacity:.6'>Добавь фото в папку <b>photos</b></p>";
+  }
+})();
+</script>
+<!-- /AUTO GALLERY -->
+
+</body>
+</html>
