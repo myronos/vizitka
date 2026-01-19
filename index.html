@@ -372,7 +372,7 @@
 })();
 </script>
 <!-- /AUTO GALLERY -->
- <!-- LIGHTBOX (click to zoom) -->
+ <!-- LIGHTBOX for BEFORE/AFTER only -->
 <style>
   .lbOverlay{
     position:fixed; inset:0;
@@ -398,13 +398,7 @@
     align-items:center;
     justify-content:center;
   }
-  .lbImg{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
-    background: rgba(0,0,0,.15);
-  }
+  .lbImg{width:100%; height:100%; object-fit:contain; display:block;}
   .lbTop{
     position:absolute; left:0; right:0; top:0;
     display:flex; align-items:center; justify-content:space-between;
@@ -412,11 +406,10 @@
     padding:10px 12px;
     background: linear-gradient(180deg, rgba(0,0,0,.55), transparent);
     color: rgba(231,238,252,.92);
-    font-weight:800;
+    font-weight:900;
     font-size:13px;
     pointer-events:none;
   }
-  .lbTop span{pointer-events:none}
   .lbBtn{
     pointer-events:auto;
     border:1px solid rgba(255,255,255,.16);
@@ -450,13 +443,6 @@
     user-select:none;
   }
   .lbArrow:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.26)}
-  .lbHint{
-    color: rgba(169,183,214,.85);
-    font-weight:800;
-    font-size:12px;
-  }
-
-  /* make images feel clickable */
   .photoCard img{ cursor: zoom-in; }
 </style>
 
@@ -464,10 +450,7 @@
   <div class="lbBox" role="dialog" aria-modal="true" aria-label="Просмотр фото">
     <div class="lbTop">
       <span id="lbTitle">Фото</span>
-      <div style="display:flex; gap:8px; align-items:center; pointer-events:auto">
-        <span class="lbHint">Esc — закрыть</span>
-        <button class="lbBtn" id="lbClose" type="button">✕</button>
-      </div>
+      <button class="lbBtn" id="lbClose" type="button">✕</button>
     </div>
 
     <img class="lbImg" id="lbImg" alt="Фото крупно" />
@@ -484,62 +467,50 @@
     const overlay = document.getElementById("lbOverlay");
     const imgEl = document.getElementById("lbImg");
     const titleEl = document.getElementById("lbTitle");
-    const btnClose = document.getElementById("lbClose");
-    const btnPrev = document.getElementById("lbPrev");
-    const btnNext = document.getElementById("lbNext");
+    const closeBtn = document.getElementById("lbClose");
+    const prevBtn = document.getElementById("lbPrev");
+    const nextBtn = document.getElementById("lbNext");
 
-    function getImages(){
-      // любые картинки в карточках (галерея/до-после)
-      return Array.from(document.querySelectorAll(".photoCard img"))
-        .filter(img => img.getAttribute("src"));
-    }
+    // ВАЖНО: берём ровно две картинки по src
+    const images = [
+      { src: "before.jpg", title: "До" },
+      { src: "after.jpg",  title: "После" }
+    ];
 
-    let images = [];
     let index = 0;
 
     function openAt(i){
-      images = getImages();
-      if(!images.length) return;
       index = (i + images.length) % images.length;
-
-      const src = images[index].getAttribute("src");
-      imgEl.src = src;
-      titleEl.textContent = `Фото ${index+1} / ${images.length}`;
+      imgEl.src = images[index].src;
+      titleEl.textContent = images[index].title + ` (${index+1}/${images.length})`;
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden","false");
       document.body.style.overflow = "hidden";
     }
-
     function close(){
       overlay.classList.remove("open");
       overlay.setAttribute("aria-hidden","true");
       imgEl.src = "";
       document.body.style.overflow = "";
     }
-
     function next(){ openAt(index + 1); }
     function prev(){ openAt(index - 1); }
 
-    // Click any photo -> open
+    // Открывать только при клике на before/after
     document.addEventListener("click", (e) => {
       const img = e.target.closest(".photoCard img");
       if(!img) return;
 
-      const list = getImages();
-      const i = list.indexOf(img);
-      openAt(i);
+      const src = (img.getAttribute("src") || "").trim();
+      if(src.includes("before")) openAt(0);
+      else if(src.includes("after")) openAt(1);
     });
 
-    // Close on overlay click (outside box)
-    overlay.addEventListener("click", (e) => {
-      if(e.target === overlay) close();
-    });
+    overlay.addEventListener("click", (e) => { if(e.target === overlay) close(); });
+    closeBtn.addEventListener("click", close);
+    nextBtn.addEventListener("click", next);
+    prevBtn.addEventListener("click", prev);
 
-    btnClose.addEventListener("click", close);
-    btnNext.addEventListener("click", next);
-    btnPrev.addEventListener("click", prev);
-
-    // Keyboard
     document.addEventListener("keydown", (e) => {
       if(!overlay.classList.contains("open")) return;
       if(e.key === "Escape") close();
