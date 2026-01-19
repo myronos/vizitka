@@ -27,6 +27,12 @@
     .wrap{max-width:1100px; margin:0 auto; padding:22px 18px 64px}
 
     /* Top bar */
+    .gallery{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap:14px;
+    }
+
     .top{
       position:sticky; top:0; z-index:30;
       display:flex; align-items:center; justify-content:space-between; gap:12px;
@@ -532,6 +538,26 @@
   })();
 </script>
 <!-- /LIGHTBOX -->
+<section id="gallery-extra">
+  <div class="sectionTitle">
+    <h2>Другие работы</h2>
+    <p>Фотографии выполненных объектов</p>
+  </div>
+
+  <div class="gallery">
+    <div class="photoCard"><img src="photos/f99efd82-24a0-41dd-9b31-10d91d2aa1e7.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/2f6ff686-b7be-42f6-ba9a-706328f5d7a1.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/abfd6c20-6227-4587-80ba-4eee7caadfbf.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/c3178f22-5ac5-4a18-9c71-c3a646d9bb04.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/5d3c76f5-0cf8-4b23-9cac-031aff3c73fc.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/c62b1f15-1b12-489f-a2e0-d95dcecf5d8d.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/06870fea-c1b2-45fc-82e0-8d094c5ed8cf.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/d56fab3f-e640-4189-b25d-7bfed30ef6cc.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/ed46933e-691b-4e5c-a088-53654756ccb4.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/b42feebc-88e9-44a8-9efc-bc26bd01af11.png" alt="Работа"></div>
+    <div class="photoCard"><img src="photos/551ec5ac-f39a-4de2-a914-34fd5c68a5cf.png" alt="Работа"></div>
+  </div>
+</section>
 
 
 </body>
