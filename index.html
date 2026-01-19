@@ -372,6 +372,196 @@
 })();
 </script>
 <!-- /AUTO GALLERY -->
+ <!-- LIGHTBOX (click to zoom) -->
+<style>
+  .lbOverlay{
+    position:fixed; inset:0;
+    background: rgba(0,0,0,.78);
+    backdrop-filter: blur(6px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    padding:20px;
+  }
+  .lbOverlay.open{display:flex;}
+  .lbBox{
+    width:min(1100px, 96vw);
+    height:min(78vh, 820px);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(10,14,22,.55);
+    box-shadow: 0 30px 90px rgba(0,0,0,.6);
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .lbImg{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    background: rgba(0,0,0,.15);
+  }
+  .lbTop{
+    position:absolute; left:0; right:0; top:0;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    background: linear-gradient(180deg, rgba(0,0,0,.55), transparent);
+    color: rgba(231,238,252,.92);
+    font-weight:800;
+    font-size:13px;
+    pointer-events:none;
+  }
+  .lbTop span{pointer-events:none}
+  .lbBtn{
+    pointer-events:auto;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    color: rgba(231,238,252,.95);
+    border-radius:12px;
+    padding:10px 12px;
+    font-weight:900;
+    cursor:pointer;
+    transition:.15s ease;
+    user-select:none;
+  }
+  .lbBtn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.26)}
+  .lbNav{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 10px;
+    pointer-events:none;
+  }
+  .lbArrow{
+    pointer-events:auto;
+    width:44px; height:44px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    font-weight:900;
+    font-size:18px;
+    transition:.15s ease;
+    user-select:none;
+  }
+  .lbArrow:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.26)}
+  .lbHint{
+    color: rgba(169,183,214,.85);
+    font-weight:800;
+    font-size:12px;
+  }
+
+  /* make images feel clickable */
+  .photoCard img{ cursor: zoom-in; }
+</style>
+
+<div class="lbOverlay" id="lbOverlay" aria-hidden="true">
+  <div class="lbBox" role="dialog" aria-modal="true" aria-label="Просмотр фото">
+    <div class="lbTop">
+      <span id="lbTitle">Фото</span>
+      <div style="display:flex; gap:8px; align-items:center; pointer-events:auto">
+        <span class="lbHint">Esc — закрыть</span>
+        <button class="lbBtn" id="lbClose" type="button">✕</button>
+      </div>
+    </div>
+
+    <img class="lbImg" id="lbImg" alt="Фото крупно" />
+
+    <div class="lbNav">
+      <div class="lbArrow" id="lbPrev" title="Назад (←)">‹</div>
+      <div class="lbArrow" id="lbNext" title="Вперёд (→)">›</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    const overlay = document.getElementById("lbOverlay");
+    const imgEl = document.getElementById("lbImg");
+    const titleEl = document.getElementById("lbTitle");
+    const btnClose = document.getElementById("lbClose");
+    const btnPrev = document.getElementById("lbPrev");
+    const btnNext = document.getElementById("lbNext");
+
+    function getImages(){
+      // любые картинки в карточках (галерея/до-после)
+      return Array.from(document.querySelectorAll(".photoCard img"))
+        .filter(img => img.getAttribute("src"));
+    }
+
+    let images = [];
+    let index = 0;
+
+    function openAt(i){
+      images = getImages();
+      if(!images.length) return;
+      index = (i + images.length) % images.length;
+
+      const src = images[index].getAttribute("src");
+      imgEl.src = src;
+      titleEl.textContent = `Фото ${index+1} / ${images.length}`;
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function close(){
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden","true");
+      imgEl.src = "";
+      document.body.style.overflow = "";
+    }
+
+    function next(){ openAt(index + 1); }
+    function prev(){ openAt(index - 1); }
+
+    // Click any photo -> open
+    document.addEventListener("click", (e) => {
+      const img = e.target.closest(".photoCard img");
+      if(!img) return;
+
+      const list = getImages();
+      const i = list.indexOf(img);
+      openAt(i);
+    });
+
+    // Close on overlay click (outside box)
+    overlay.addEventListener("click", (e) => {
+      if(e.target === overlay) close();
+    });
+
+    btnClose.addEventListener("click", close);
+    btnNext.addEventListener("click", next);
+    btnPrev.addEventListener("click", prev);
+
+    // Keyboard
+    document.addEventListener("keydown", (e) => {
+      if(!overlay.classList.contains("open")) return;
+      if(e.key === "Escape") close();
+      if(e.key === "ArrowRight") next();
+      if(e.key === "ArrowLeft") prev();
+    });
+
+    // Swipe (mobile)
+    let x0 = null;
+    overlay.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, {passive:true});
+    overlay.addEventListener("touchend", (e) => {
+      if(x0 === null) return;
+      const x1 = e.changedTouches[0].clientX;
+      const dx = x1 - x0;
+      x0 = null;
+      if(Math.abs(dx) < 40) return;
+      if(dx < 0) next(); else prev();
+    }, {passive:true});
+  })();
+</script>
+<!-- /LIGHTBOX -->
+
 
 </body>
 </html>
